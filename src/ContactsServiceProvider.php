@@ -10,8 +10,9 @@ class ContactsServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
+     * @param Filesystem $filesystem
      */
-    public function boot()
+    public function boot(Filesystem $filesystem)
     {
         /*
          * Optional methods to load your package assets
