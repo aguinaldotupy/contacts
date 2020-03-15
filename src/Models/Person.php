@@ -13,6 +13,8 @@ use Tupy\Contacts\Traits\HasContacts;
  * @property string $first_name
  * @property string $last_name
  * @property string $gender
+ * @property string $rg
+ * @property string $cpf
  * @property string $birth_date
  * @property string|null $observations
  * @property string|null $additional
