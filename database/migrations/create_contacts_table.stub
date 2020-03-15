@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateContactsTable extends Migration
+class CreateTables extends Migration
 {
     /**
      * Run the migrations.
@@ -15,10 +15,50 @@ class CreateContactsTable extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->morphs('conctatable');
-            $table->string('value');
+            $table->morphs('contactable');
+            $table->string('type', 50)->index();
+            $table->string('value', 200);
             $table->string('note', 150)->nullable();
-            $table->string('type');
+            $table->longText('additional')->nullable();
+            $table->timestamps();
+        });
+
+        if(Schema::hasTable('users')) {
+            Schema::table('users', function(Blueprint $table) {
+                $table->morphTo('userable')->after('id');
+            });
+        } else {
+            $table->bigIncrements('id');
+            $table->morphTo('userable');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        }
+
+        Schema::create('people', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('first_name', 190)->index();
+            $table->string('last_name', 190)->index();
+            $table->string('gender', 20)->index();
+            $table->date('birth_date', 20);
+            $table->longText('observations')->nullable();
+            $table->longText('additional')->nullable();
+            $table->timestamps();
+        });
+
+        \DB::statement('ALTER TABLE people ADD FULLTEXT people_first_and_last_name_index(first_name, last_name)');
+
+        Schema::create('companies', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('legal_name', 200);
+            $table->string('trade_name', 200);
+            $table->string('tax_number', 150)->nullable();
+            $table->string('ie_number', 150)->nullable();
+            $table->string('people_contact', 150)->nullable();
+            $table->longText('additional')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +70,10 @@ class CreateContactsTable extends Migration
      */
     public function down()
     {
+        Schema::table('people', function(Blueprint $table) {
+            $table->dropIndex('people_first_and_last_name_index');
+        });
+        Schema::dropIfExists('peoples');
         Schema::dropIfExists('contacts');
     }
 }
