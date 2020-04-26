@@ -15,7 +15,7 @@ trait HasContacts
     {
         return $this->morphOne(Contact::class, 'contactable');
     }
-    
+
     public function getMobileAttribute()
     {
         if ($contact = $this->contacts()->whereType('Celular')->first()) {
@@ -25,7 +25,7 @@ trait HasContacts
         return null;
     }
 
-    public function getEmailAttribute()
+    public function getEmailContactAttribute()
     {
         if ($contact = $this->contacts()->whereType('Email')->first()) {
             return $contact->value;
