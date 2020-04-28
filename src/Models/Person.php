@@ -31,8 +31,6 @@ class Person extends Model
         'first_name', 'last_name', 'gender', 'birth_date', 'observations', 'additional',
     ];
 
-    protected $with = ['contacts'];
-
     public function peopleable()
     {
         return $this->morphTo();
