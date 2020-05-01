@@ -27,5 +27,5 @@ class Company extends Model
         'legal_name', 'trade_name', 'tax_number', 'ie_number', 'people_contact', 'additional'
     ];
 
-    protected $with = ['contacts'];
+//    protected $with = ['contacts'];
 }
