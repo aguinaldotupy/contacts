@@ -44,6 +44,9 @@
         "sort-packages": true
     },
     "extra": {
+        "branch-aliases": {
+            "dev-master": "1.0-dev"
+        },
         "laravel": {
             "providers": [
                 "Tupy\\Contacts\\ContactsServiceProvider"
