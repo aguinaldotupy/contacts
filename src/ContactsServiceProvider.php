@@ -17,10 +17,7 @@ class ContactsServiceProvider extends ServiceProvider
         /*
          * Optional methods to load your package assets
          */
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'contacts');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'contacts');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        // $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -29,7 +26,7 @@ class ContactsServiceProvider extends ServiceProvider
 
             $this->publishes([
                 __DIR__.'/../database/migrations/create_contacts_table.stub' => $this->getMigrationFileName($filesystem)
-            ], 'file-manager-migrations');
+            ], 'contacts-migrations');
         }
     }
 
