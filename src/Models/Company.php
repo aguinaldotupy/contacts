@@ -5,6 +5,8 @@ namespace Tupy\Contacts\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Tupy\Contacts\Traits\HasContacts;
 
 /**
  * Class Company
@@ -21,11 +23,27 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Company extends Model
 {
+    use HasContacts;
+    use SoftDeletes;
+
     protected $table = 'companies';
 
     protected $fillable = [
         'legal_name', 'trade_name', 'tax_number', 'ie_number', 'people_contact', 'additional'
     ];
 
-//    protected $with = ['contacts'];
+    public function user()
+    {
+        return $this->morphOne(User::class, 'userable');
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function(Company $company){
+            if (auth()->check()) {
+                $company->deleted_by = auth()->id();
+                $company->update();
+            }
+        });
+    }
 }

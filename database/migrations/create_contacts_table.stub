@@ -36,12 +36,21 @@ class CreateContactsTable extends Migration
                 $table->timestamp('email_verified_at')->nullable();
                 $table->string('password');
                 $table->rememberToken();
+                $table->unsignedBigInteger('created_by')->nullable();
                 $table->timestamps();
+                $table->unsignedBigInteger('updated_by')->nullable();
+                $table->softDeletes();
+                $table->unsignedBigInteger('deleted_by')->nullable();
+
+                $table->foreign('deleted_by')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('cascade');
+                $table->foreign('updated_by')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('cascade');
+                $table->foreign('created_by')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('cascade');
             });
         }
 
         Schema::create('people', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('full_name')->index();
             $table->string('first_name', 190)->index();
             $table->string('last_name', 190)->index();
             $table->string('gender', 20)->nullable();
@@ -50,7 +59,15 @@ class CreateContactsTable extends Migration
             $table->date('birth_date', 20);
             $table->longText('observations')->nullable();
             $table->longText('additional')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
             $table->timestamps();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->softDeletes();
+            $table->unsignedBigInteger('deleted_by')->nullable();
+
+            $table->foreign('deleted_by')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('cascade');
         });
 
         \DB::statement('ALTER TABLE people ADD FULLTEXT people_first_and_last_name_index(first_name, last_name)');
@@ -63,7 +80,15 @@ class CreateContactsTable extends Migration
             $table->string('ie_number', 150)->nullable();
             $table->string('people_contact', 150)->nullable();
             $table->longText('additional')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
             $table->timestamps();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->softDeletes();
+            $table->unsignedBigInteger('deleted_by')->nullable();
+
+            $table->foreign('deleted_by')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('cascade');
         });
     }
 
