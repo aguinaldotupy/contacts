@@ -14,10 +14,7 @@ class ContactsServiceProvider extends ServiceProvider
      */
     public function boot(Filesystem $filesystem)
     {
-        /*
-         * Optional methods to load your package assets
-         */
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+//        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
